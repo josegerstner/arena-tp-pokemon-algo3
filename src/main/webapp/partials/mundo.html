@@ -1,0 +1,176 @@
+<div class="container-fluid d-inline-block">
+    <div class="col-xs-12 col-md-4 floatLeft">
+        <div class="d-flex justify-content-center botonera col-6 mx-auto">
+            
+            <table>
+               <tbody>
+                    <tr>
+                        <td></td>
+                        <td><button type="button" class="btn mdb-color indigo btn-lg" ng-click="mundoCtrl.moverEntrenador('arriba')">N</button></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><button type="button" class="btn mdb-color indigo btn-lg" ng-click="mundoCtrl.moverEntrenador('izquierda')">O</button></td>
+                        <td></td>
+                        <td><button type="button" class="btn mdb-color indigo btn-lg" ng-click="mundoCtrl.moverEntrenador('derecha')">E</button></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><button type="button" class="btn mdb-color indigo btn-lg" ng-click="mundoCtrl.moverEntrenador('abajo')">S</button></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row col-12 d-flex justify-content-center" >
+            <i class="fa fa-map-marker" aria-hidden="true"></i> {{mundoCtrl.getUbicacion()}}
+        </div>
+    </div>
+
+
+ <div class="col-xs-12 col-md-8 floatLeft">
+        <div class="row d-flex justify-content-center">
+            <div class="d-inline-block col-xs-12 col-md-10">
+                <div class="card">
+                    <div class="card-body">
+                        <span class="titulo-tabla">Oponentes</span>
+                        <table class="table table-hover table-bordered table-sm tabla-general">
+                            <thead class="mdb-color indigo">
+                                <tr>
+                                    <th><strong>Entrenador</strong></th>
+                                    <th><strong>Pokémon</strong></th>
+                                    <th><strong>Apuesta</strong></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody  >
+                                <tr ng-repeat=" oponente in mundoCtrl.oponentes">
+                                    <td>{{oponente.nombre}}<img ng-src="img/entrenadores/{{oponente.imagenEntrenador}}" class="imagenTabla img-fluid rounded-circle" /></td>
+                                    <td>{{oponente.equipo[0].nombre}}  <img  class="imagenTabla img-fluid rounded-circle" ng-src="/img/pokemones/{{oponente.equipo[0].nombreFamilia}}.png"   />  </td>
+                                    <td>{{oponente.dinero}}</td>
+                                    <td class="icono-celda">
+                                        <a> <i class="fa fa-group" aria-hidden="true" ng-click="mundoCtrl.seleccionarOponente(oponente)"></i> </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+               
+                    <div id="combateAlert" ng-class="{'alert alert-danger animate-repeat':mensaje=='DERROTA', 'alert alert-success animate-repeat':mensaje=='VICTORIA'}"  ng-repeat="mensaje in mundoCtrl.mensajes">{{mensaje}}</div>
+                  
+            </div>
+        </div>
+        
+        
+
+        <br>
+        <div class="row">
+            <div class="col-xs-12 col-md-6 d-inline-block">
+                <div class="card">
+                    <div class="card-body">
+                        <span class="titulo-tabla">Pokémon salvajes</span>
+                        <table class="table table-hover table-bordered table-sm tabla-general">
+                            <thead class="mdb-color indigo">
+                                <tr>
+                                    <th><strong>Pokémon</strong></th>
+                                    <th><strong>Nivel</strong></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                <tr ng-repeat="pokemon in mundoCtrl.pokemonesSalvaje">
+                                    <td>{{pokemon.nombre}} <img ng-src="/img/pokemones/{{pokemon.nombreFamilia}}.png" class="imagenTabla img-fluid rounded-circle" /></td>
+                                    <td>{{pokemon.getNivel()}}</td>
+                                    <td class="icono-celda">
+                                        <a>
+                                            <img src="img/pokebolas/pokebola.png" ng-click="mundoCtrl.atrapar(pokemon)" alt="pokebola" class="imagenTabla">
+                                        </a>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="atrapadoAlert" ng-class="{'alert alert-danger animate-repeat':mensaje=='SE ESCAPO', 'alert alert-success animate-repeat':mensaje=='ATRAPADO'}"  ng-repeat="mensaje in mundoCtrl.atrapado">{{mensaje}}</div>
+            </div>
+           
+            <div class="col-xs-12 col-md-6 d-inline-block">
+                <div class="card">
+                    <div class="card-body">
+                        <span class="titulo-tabla">Pokeparadas</span>
+                        <table class="table table-hover table-bordered table-sm tabla-general">
+                            <thead class="mdb-color indigo">
+                                <tr>
+                                    <th><strong>Pokeparada</strong></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                <tr ng-repeat="Pokeparada in mundoCtrl.pokeparadas">
+                                    <td>{{Pokeparada.nombre}}</td>
+                                    <td class="icono-celda">
+                                        <a><i class="fa fa-plus-circle pokeparada" aria-hidden="true" ng-click="mundoCtrl.curar(Pokeparada)"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="curadoAlert" class="alert alert-success animate-repeat"  ng-repeat="mensaje in mundoCtrl.curado">{{mensaje}}</div>
+
+            </div>
+        </div>
+    </div> 
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Informacion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div ng-class="{'alert alert-danger animate-repeat':mensaje=='DERROTA', 'alert alert-success animate-repeat':mensaje=='VICTORIA','alert alert-danger animate-repeat':mensaje=='SE ESCAPO', 'alert alert-success animate-repeat':mensaje=='ATRAPADO', 'alert alert-success animate-repeat':mensaje=='EQUIPO CURADO'}"  ng-repeat="mensaje in mundoCtrl.mensajes">{{mensaje}}</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="equipoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Equipo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            <table class="table table-hover table-bordered table-sm tabla-general">
+                                    <tr ng-repeat="pokemon in mundoCtrl.entrenador.equipo">
+                                        <td>{{pokemon.nombre}}</td>
+                                        <td class="icono-celda">
+                                            <a><i class="fa fa-plus-circle pokeparada" aria-hidden="true" ng-click="mundoCtrl.pelear(pokemon)"></i></a>
+                                        </td>
+                                    </tr>
+                                   </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div>
+         
+        </div>
+    </div>
+</div>
+

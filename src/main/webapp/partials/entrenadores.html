@@ -1,0 +1,140 @@
+<div class="container col-md-12 d-inline-block" ng-controller="TodosLosPokemonesSalvajeControllers as pokemonCtrl">
+    <div class="d-flex justify-content-center mx-auto">
+        <div class="col-md-3 d-inline-block floatLeft">
+            <!--Card-->
+            <div class="card">
+                <!--Card content-->
+                <div class="card-body">
+                    <!--Zoom effect-->
+                    <div class="view overlay hm-zoom">
+                        DesHardcodear Esto
+                        <img src="img/entrenadores/ash.jpg" class="imagenEntrenador img-fluid" />
+                    </div>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action"><b>Nombre :</b> {{pokemonCtrl.entrenadorLogeado.nombre}} </a>
+                        <a href="#" class="list-group-item list-group-item-action list-group-item-danger"><b>Dinero :</b> $ {{pokemonCtrl.entrenadorLogeado.dinero}} <i class="fa fa-sort-down" aria-hidden="true"></i></a>
+                        <a href="#" class="list-group-item list-group-item-action list-group-item-success"><b>Expericencia :</b> {{pokemonCtrl.entrenadorLogeado.experiencia}} <i class="fa fa-sort-up" aria-hidden="true"></i> </a>
+                        <a href="#" class="list-group-item list-group-item-action list-group-item-success"><b>Nivel :</b> {{pokemonCtrl.entrenadorLogeado.nivel}} <i class="fa fa-sort-up" aria-hidden="true"></i> </a>
+                        <a href="#" class="list-group-item list-group-item-action"><b>Perfil :</b> {{pokemonCtrl.entrenadorLogeado.perfil.nombre}} </a>
+                    </div>
+                </div>
+            </div>
+            <!--/.Card-->
+        </div>
+
+        <div class="col-md-4 d-inline-block floatLeft">
+            <div>
+                <div class="row">
+                    <div class="d-inline-block table-responsive col-10">
+                        <!--Card-->
+                        <div class="card">
+                            <!--Card content-->
+                            <div class="card-body">
+                                <span class="titulo-tabla">Pokemones Atrapados</span>
+                                <table class="table table-hover table-bordered table-sm tabla-general">
+                                    <thead class="mdb-color indigo">
+                                        <tr>
+                                            <th><strong>Pokemon</strong></th>
+                                            <th><strong>Nivel</strong></th>
+                                            <th><strong></strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="pokemon in pokemonCtrl.pokemonesEntrenador" ng-click="pokemonCtrl.getPokemon(pokemon.nombre)">
+                                            <td>{{pokemon.nombre}} <img src="{{pokemon.getImgPath()}}" class="imagenTabla img-fluid rounded-circle"
+                                                /> </td>
+                                            <td>{{pokemon.nivel}}</td>
+                                            <td> <i class="fa fa-group" aria-hidden="true"></i> </td>
+                                        </tr>
+                                        <tr ng-repeat="pokemon in pokemonCtrl.depositoEntrenador" ng-click="pokemonCtrl.getPokemon(pokemon.nombre)">
+                                                <td>{{pokemon.nombre}} <img src="{{pokemon.getImgPath()}}" class="imagenTabla img-fluid rounded-circle"
+                                                    /> </td>
+                                                <td>{{pokemon.nivel}}</td>
+                                                <td> </td>
+                                            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div>
+
+                <div class="row">
+                    <div class="d-inline-block table-responsive col-10">
+                        <!--Card-->
+                        <div class="card">
+                            <span class="titulo-tabla">Inventario</span>
+
+                            <!--Card content-->
+                            <div class="card-body">
+
+                                <table class="table table-hover  table-bordered table-sm tabla-general">
+                                    <thead class="mdb-color indigo">
+                                        <tr>
+                                            <th><strong>Item</strong></th>
+                                            <th><strong>Cantidad</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in pokemonCtrl.items" >
+                                            <td>{{item.nombre}} <img src="{{item.getImgPath()}}" class="imagenTabla img-fluid rounded-circle"
+                                                /></td>
+                                            <td>{{item.cantidad}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 d-inline-block floatLeft">
+
+            <!--Card-->
+            <div class="card" ng-model="pokemonCtrl" ng-if="pokemonCtrl.pokemon != null">
+
+                <!--Card content-->
+                <div class="card-body">
+                    <div class="floatLeft">
+                        <div class="view overlay hm-zoom">
+                            <img src="{{pokemonCtrl.getImgPath()}}" class="imagenPokemon img-thumbnail img-fluid" />
+                        </div>
+
+                        <div href="#" class="list-group list-group-item-action">
+                            <a class="list-group-item list-group-item-action {{pokemonCtrl.pocaVida()}}">
+                                <b>Ps : </b> {{pokemonCtrl.pokemon.puntosDeSalud}}/{{pokemonCtrl.pokemon.puntosSaludMaximo}}
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{pokemonCtrl.pokemon.getPorcentajeVida()}}%" aria-valuenow="{{pokemonCtrl.pokemon.getPorcentajeVida()}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{pokemonCtrl.pokemon.getPorcentajeFaltante()}}%" aria-valuenow="{{pokemonCtrl.pokemon.getPorcentajeFaltante()}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="floatLeft">
+
+                        <div class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action"><b>Especie : </b> {{pokemonCtrl.pokemon.especie.nombre}} </a>
+                            <a href="#" class="list-group-item list-group-item-action"><b>Tipo : </b> {{pokemonCtrl.getTipo()}} </a>
+                            <a href="#" class="list-group-item list-group-item-action"><b>Nombre : </b> {{pokemonCtrl.pokemon.nombre}} </a>
+                            <a href="#" class="list-group-item list-group-item-action list-group-item-success"><b>Nivel :</b> {{pokemonCtrl.pokemon.nivel}} <i class="fa fa-sort-up" aria-hidden="true"></i> </a>
+                            <a href="#" class="list-group-item list-group-item-action"><b>Genero : </b> {{pokemonCtrl.pokemon.genero}} </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
